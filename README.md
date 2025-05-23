@@ -27,8 +27,8 @@ cmake --build . --config Debug
 <summary> Linux</summary>
   
 ```bash
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo
+git clone https://github.com/ProdigyThirteen/Engine.git
+cd Engine
 mkdir build
 cd build
 cmake -DCMAKE_CXX_STANDARD=23 ..
