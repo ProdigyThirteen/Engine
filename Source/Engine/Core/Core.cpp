@@ -1,13 +1,24 @@
-#include <iostream>
+#include <Core.h>
 
-namespace Engine::Core {
+namespace Engine::Core
+{
+    void Initialize()
+    {
+        EngineRuntime e;
+    }
 
-void Initialize() {
-    std::cout << "Core Initialized\n";
-}
+    void Shutdown()
+    {
 
-void Shutdown() {
-    std::cout << "Core Shutdown\n";
-}
+    }
 
+    EngineRuntime::EngineRuntime()
+    {
+        LOG(LogCore, Info, "Hello, World!");
+    }
+
+    EngineRuntime::~EngineRuntime()
+    {
+        LOG(LogCore, Info, "Goodbye, World!");
+    }
 }
