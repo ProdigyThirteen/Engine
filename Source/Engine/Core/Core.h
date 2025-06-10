@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Reflection.h>
-#include <Log.h>
+#include <CoreIncludes.h>
 
 DECLARE_LOG_CATEGORY(LogCore)
 
@@ -13,7 +12,6 @@ namespace Engine::Core
     class EngineRuntime
     {
     public:
-        CLASS(EngineRuntime)
 
         EngineRuntime();
         ~EngineRuntime();

@@ -17,6 +17,50 @@ DECLARE_LOG_CATEGORY(LogReflection)
 
 // -------------------------------------------------
 
+#define CLASS(CLASS_NAME) \
+using ThisClass = CLASS_NAME; \
+static inline TypeInfo __typeInfo__ = TypeInfo{ #CLASS_NAME, {}, {} }; \
+struct __RegisterTypeInRegistry \
+{ \
+__RegisterTypeInRegistry() \
+{ \
+TypeRegistry::instance().add(#CLASS_NAME, &__typeInfo__); \
+} \
+}; \
+inline static __RegisterTypeInRegistry __registerTypeInstance__; \
+static TypeInfo* reflect() \
+{ \
+return &__typeInfo__; \
+}
+
+// -------------------------------------------------
+
+#define PROPERTY(NAME, TYPE) \
+private: \
+static constexpr const char* __field_name_##NAME() { return #NAME; } \
+public: \
+TYPE NAME; \
+inline static auto __register_##NAME = FieldReflector<ThisClass, TYPE>::Register( \
+#NAME, &ThisClass::NAME, ThisClass::__typeInfo__, std::is_const_v<remove_cvref_t<TYPE>>)
+
+// -------------------------------------------------
+
+#define STATIC(NAME, TYPE) \
+public: \
+static TYPE NAME; \
+inline static auto __register_static_##NAME = StaticFieldReflector<TYPE>::Register( \
+#NAME, ThisClass::NAME, ThisClass::__typeInfo__, std::is_const_v<remove_cvref_t<TYPE>>)
+
+// -------------------------------------------------
+
+#define STATIC_CONST(NAME, TYPE, VALUE) \
+public: \
+static constexpr TYPE NAME = VALUE; \
+inline static auto __register_static_const_##NAME = StaticFieldReflector<TYPE>::Register( \
+#NAME, ThisClass::NAME, ThisClass::__typeInfo__, true)
+
+// -------------------------------------------------
+
 struct Variant
 {
 public:
@@ -221,55 +265,7 @@ struct StaticFieldReflector
 
         typeInfo.fields.push_back(fieldInfo);
 
-        LOG(LogReflection, Debug, "Static field registered successfully: %s", std::string(name));
-
         return 0;
     }
 };
 
-// -------------------------------------------------
-
-#define CLASS(CLASS_NAME) \
-    using ThisClass = CLASS_NAME; \
-    static inline TypeInfo __typeInfo__ = TypeInfo{ #CLASS_NAME, {}, {} }; \
-    struct __RegisterTypeInRegistry \
-    { \
-        __RegisterTypeInRegistry() \
-        { \
-            TypeRegistry::instance().add(#CLASS_NAME, &__typeInfo__); \
-            LOG(LogReflection, Debug, "Registered type in TypeRegistry: " #CLASS_NAME); \
-        } \
-    }; \
-    inline static __RegisterTypeInRegistry __registerTypeInstance__; \
-    static TypeInfo* reflect() \
-    { \
-        return &__typeInfo__; \
-    }
-
-// -------------------------------------------------
-
-#define PROPERTY(NAME, TYPE) \
-private: \
-    static constexpr const char* __field_name_##NAME() { return #NAME; } \
-public: \
-    TYPE NAME; \
-    inline static auto __register_##NAME = FieldReflector<ThisClass, TYPE>::Register( \
-        #NAME, &ThisClass::NAME, ThisClass::__typeInfo__, std::is_const_v<remove_cvref_t<TYPE>>)
-
-// -------------------------------------------------
-
-#define STATIC(NAME, TYPE) \
-public: \
-    static TYPE NAME; \
-    inline static auto __register_static_##NAME = StaticFieldReflector<TYPE>::Register( \
-        #NAME, ThisClass::NAME, ThisClass::__typeInfo__, std::is_const_v<remove_cvref_t<TYPE>>)
-
-// -------------------------------------------------
-
-#define STATIC_CONST(NAME, TYPE, VALUE) \
-public: \
-    static constexpr TYPE NAME = VALUE; \
-    inline static auto __register_static_const_##NAME = StaticFieldReflector<TYPE>::Register( \
-        #NAME, ThisClass::NAME, ThisClass::__typeInfo__, true)
-
-// -------------------------------------------------

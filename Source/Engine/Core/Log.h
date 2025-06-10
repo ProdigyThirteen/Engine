@@ -5,6 +5,18 @@
 #include <string>
 #include <mutex>
 
+// ------------------- Macros -------------------
+
+#define DECLARE_LOG_CATEGORY(CategoryName) \
+inline constexpr Logging::LogCategory CategoryName{#CategoryName};
+
+#define LOG(Category, Verbosity, ...)                            \
+do                                                           \
+{                                                            \
+if ((Verbosity) <= LOG_VERBOSITY)                        \
+Logging::LogPrint(Category, Verbosity, __VA_ARGS__); \
+} while(0)
+
 // ------------------- Log Verbosity Levels -------------------
 
 enum LogVerbosity {
@@ -95,14 +107,3 @@ namespace Logging {
 
 } // namespace Logging
 
-// ------------------- Macros -------------------
-
-#define DECLARE_LOG_CATEGORY(CategoryName) \
-    inline constexpr Logging::LogCategory CategoryName{#CategoryName};
-
-#define LOG(Category, Verbosity, ...)                            \
-    do                                                           \
-    {                                                            \
-        if ((Verbosity) <= LOG_VERBOSITY)                        \
-            Logging::LogPrint(Category, Verbosity, __VA_ARGS__); \
-    } while(0)
