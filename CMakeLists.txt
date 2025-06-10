@@ -9,6 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 add_subdirectory(Source)
+add_subdirectory(Test)
 
 option(BUILD_EXAMPLES "Build example applications" ON)
 if(BUILD_EXAMPLES)
