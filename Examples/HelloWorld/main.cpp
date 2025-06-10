@@ -1,33 +1,34 @@
 #define LOG_VERBOSITY VeryVerbose
 
 #include <Core.h>
-#include <iostream>
-
 #include <Object/Object.h>
 #include <Object/Component.h>
 
 DECLARE_LOG_CATEGORY(Temp)
 
-using Engine::Core::Object;
-using Engine::Core::Component;
-
-class SomeComp final : public Component
-{
-public:
-    explicit SomeComp(const int SomeVal = 5)
-        : Component()
-    {
-        LOG(Temp, Info, "SomeComp: %d", SomeVal);
-    }
-};
+using namespace Engine::Core;
 
 int main(int argc, char *argv[])
 {
-    Engine::Core::Initialize();
-    Engine::Core::Shutdown();
+#if 1 // Runtime example
+    EngineRuntime e;
+    e.Run();
+#endif
+
+#if 0 // Component example
+    class SomeComp final : public Component
+    {
+    public:
+        explicit SomeComp(const int SomeVal = 5)
+            : Component()
+        {
+            LOG(Temp, Info, "SomeComp: %d", SomeVal);
+        }
+    };
 
     auto obj = Object::Instantiate<Object>();
     obj->AddComponent<SomeComp>(12);
+#endif
 
     std::cin.get();
     return 0;

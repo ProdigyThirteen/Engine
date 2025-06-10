@@ -1,19 +1,29 @@
 #pragma once
 
 #include <CoreIncludes.h>
-
-DECLARE_LOG_CATEGORY(LogCore)
+#include <SDL3/SDL.h>
 
 namespace Engine::Core
 {
+    DECLARE_LOG_CATEGORY(LogCore)
+
     void Initialize();
     void Shutdown();
+    void Run();
 
     class EngineRuntime
     {
     public:
-
         EngineRuntime();
         ~EngineRuntime();
+
+        void Run();
+
+    private:
+        bool InitWindow();
+        bool InitRenderer();
+
+        SDL_Window* Window;
+        SDL_Renderer* Renderer;
     };
 }
