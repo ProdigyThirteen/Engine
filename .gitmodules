@@ -1,6 +1,6 @@
 [submodule "Source/ThirdParty/SDL"]
 	path = Source/ThirdParty/SDL
 	url = https://github.com/libsdl-org/SDL
-[submodule "Source/ThirdParty/googletest"]
+[submodule "Test/ThirdParty/googletest"]
 	path = Test/ThirdParty/googletest
 	url = https://github.com/google/googletest.git

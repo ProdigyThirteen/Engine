@@ -7,21 +7,11 @@ namespace Engine::Core
 {
     class EngineCoreTests : public testing::Test {
     protected:
-        EngineCoreTests()
-        {
-            e = new EngineRuntime();
-        }
-
-        ~EngineCoreTests() override
-        {
-            delete e;
-        }
+        EngineCoreTests() = default;
+        ~EngineCoreTests() override = default;
 
         void SetUp() override {}
-
         void TearDown() override {}
-
-        EngineRuntime* e = nullptr;
     };
 
     class TestObject : public Object
