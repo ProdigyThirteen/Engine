@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <mutex>
 
-namespace Engine::Core
+namespace Engine::Core::Objects
 {
     class Object : public std::enable_shared_from_this<Object>
     {
@@ -95,7 +95,7 @@ namespace Engine::Core
 
         // Creates a new instance of an object
         template <class T, typename... Args>
-        static std::shared_ptr<T> Instantiate(Args&&... args)
+        [[nodiscard]] static std::shared_ptr<T> Instantiate(Args&&... args)
         {
             static_assert(std::is_base_of_v<Object, T>, "T must derive from Object");
 

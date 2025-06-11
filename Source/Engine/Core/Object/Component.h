@@ -1,7 +1,7 @@
 #pragma once
 #include <CoreIncludes.h>
 
-namespace Engine::Core
+namespace Engine::Core::Objects
 {
     class Object;
 
@@ -15,13 +15,13 @@ namespace Engine::Core
         virtual void Update();
         virtual void LateUpdate();
 
-        std::weak_ptr<Object> GetOwner() const { return OwningObject; }
+        [[nodiscard]] std::weak_ptr<Object> GetOwner() { return OwningObject; }
         void SetOwner(const std::weak_ptr<Object>& InOwner) { OwningObject = InOwner; }
 
-        bool IsEnabled() const { return bIsEnabled; }
+        [[nodiscard]] bool IsEnabled() const { return bIsEnabled; }
         void SetEnabled(const bool InIsEnabled) { bIsEnabled = InIsEnabled; }
 
-        bool ShouldTick() const { return bShouldTick; }
+        [[nodiscard]] bool ShouldTick() const { return bShouldTick; }
         void SetShouldTick(const bool InShouldTick) { bShouldTick = InShouldTick; }
 
     private:

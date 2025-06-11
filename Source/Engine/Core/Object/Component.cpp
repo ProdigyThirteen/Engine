@@ -1,6 +1,8 @@
 #include <Object/Component.h>
 
-void Engine::Core::Component::FixedUpdate()
+using namespace Engine::Core::Objects;
+
+void Component::FixedUpdate()
 {
     if(!bIsEnabled || !bShouldTick)
     {
@@ -8,7 +10,7 @@ void Engine::Core::Component::FixedUpdate()
     }
 }
 
-void Engine::Core::Component::Update()
+void Component::Update()
 {
     if(!bIsEnabled || !bShouldTick)
     {
@@ -16,7 +18,7 @@ void Engine::Core::Component::Update()
     }
 }
 
-void Engine::Core::Component::LateUpdate()
+void Component::LateUpdate()
 {
     if(!bIsEnabled || !bShouldTick)
     {

@@ -3,15 +3,21 @@
 #include <Object/Component.h>
 #include <Object/Object.h>
 
-namespace Engine::Core
+namespace Engine::Core::Objects
 {
-    class EngineCoreTests : public testing::Test {
+    class EngineObjectTests : public testing::Test
+    {
     protected:
-        EngineCoreTests() = default;
-        ~EngineCoreTests() override = default;
+        EngineObjectTests() = default;
+        ~EngineObjectTests() override = default;
 
-        void SetUp() override {}
-        void TearDown() override {}
+        void SetUp() override
+        {
+        }
+
+        void TearDown() override
+        {
+        }
     };
 
     class TestObject : public Object
@@ -42,7 +48,7 @@ namespace Engine::Core
         int SomeValue = 0;
     };
 
-    TEST_F(EngineCoreTests, GivenObject_WhenAddComponent_ThenComponentIsAdded)
+    TEST_F(EngineObjectTests, GivenObject_WhenAddComponent_ThenComponentIsAdded)
     {
         int testValue = 42;
 
@@ -55,7 +61,7 @@ namespace Engine::Core
         EXPECT_EQ(component->GetSomeValue(), testValue);
     }
 
-    TEST_F(EngineCoreTests, GivenObjectWithComponent_WhenGetComponent_ThenReturnsCorrectType)
+    TEST_F(EngineObjectTests, GivenObjectWithComponent_WhenGetComponent_ThenReturnsCorrectType)
     {
         auto obj = Object::Instantiate<TestObject>();
         obj->AddComponent<TestComponent>(123);
@@ -66,7 +72,7 @@ namespace Engine::Core
         EXPECT_EQ(component->GetSomeValue(), 123);
     }
 
-    TEST_F(EngineCoreTests, GivenObjectWithComponent_WhenRemoveComponent_ThenComponentIsRemoved)
+    TEST_F(EngineObjectTests, GivenObjectWithComponent_WhenRemoveComponent_ThenComponentIsRemoved)
     {
         auto obj = Object::Instantiate<TestObject>();
         obj->AddComponent<TestComponent>(999);
@@ -78,7 +84,7 @@ namespace Engine::Core
         EXPECT_TRUE(component.expired());
     }
 
-    TEST_F(EngineCoreTests, GivenObjectsWithComponents_WhenGetObjectsWithComponent_ThenCorrectObjectsReturned)
+    TEST_F(EngineObjectTests, GivenObjectsWithComponents_WhenGetObjectsWithComponent_ThenCorrectObjectsReturned)
     {
         std::vector<std::shared_ptr<Object>> Objs;
         for (int i = 0; i < 5; i++)
@@ -93,12 +99,12 @@ namespace Engine::Core
         EXPECT_EQ(objects.size(), 5);
     }
 
-    TEST_F(EngineCoreTests, GivenObjectsWithComponents_WhenGetObjectWithComponent_ThenFirstObjectReturned)
+    TEST_F(EngineObjectTests, GivenObjectsWithComponents_WhenGetObjectWithComponent_ThenFirstObjectReturned)
     {
         auto first = Object::Instantiate<TestObject>();
         first->AddComponent<TestComponent>(111);
 
-        Object::Instantiate<TestObject>();
+        auto second = Object::Instantiate<TestObject>();
 
         auto found = Object::GetObjectWithComponent<TestComponent>().lock();
 
@@ -106,7 +112,7 @@ namespace Engine::Core
         EXPECT_EQ(first.get(), found.get());
     }
 
-    TEST_F(EngineCoreTests, GivenObject_WhenInstantiated_ThenCorrectNameIsSet)
+    TEST_F(EngineObjectTests, GivenObject_WhenInstantiated_ThenCorrectNameIsSet)
     {
         const char* expectedName = "SpecialObject";
         auto obj = Object::Instantiate<TestObject>(expectedName);

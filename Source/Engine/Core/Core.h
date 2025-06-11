@@ -7,10 +7,6 @@ namespace Engine::Core
 {
     DECLARE_LOG_CATEGORY(LogCore)
 
-    void Initialize();
-    void Shutdown();
-    void Run();
-
     class EngineRuntime
     {
     public:

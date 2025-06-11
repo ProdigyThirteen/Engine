@@ -6,6 +6,8 @@ namespace Engine::Core
         : Window(nullptr)
         , Renderer(nullptr)
     {
+        // TODO: Migrate SDL-related init into renderer module
+
         if (!SDL_Init(SDL_INIT_VIDEO))
         {
             LOG(LogCore, Error, "SDL_Init failed: %s", SDL_GetError());
